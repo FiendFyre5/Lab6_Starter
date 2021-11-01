@@ -22,8 +22,10 @@ async function init() {
   // if they didn't successfully load, quit the function
   if (!fetchSuccessful) {
     console.log('Recipe fetch unsuccessful');
+    alert("unsucessfuk");
     return;
   };
+  alert("sucessfuk");
   // Add the first three recipe cards to the page
   createRecipeCards();
   // Make the "Show more" button functional
@@ -43,17 +45,47 @@ async function fetchRecipes() {
     // in the recipes folder and fetch them from there. You'll need to add their paths to the recipes array.
 
     // Part 1 Expose - TODO
+    let count  = 0;
+    for(const ele of recipes){
+      alert("fetch")
+      count++;
+      fetch(ele).then(response => response.json()).then(data =>{
+        recipeData[ele] = data; 
+        if(count !=Object.keys(recipeData).length){
+          alert("count  wrong");
+          reject(false);
+        }
+      }).catch((error) => {
+        alert(error);
+        reject(false);
+      });
+    }
+    alert("out");
+    // resolve
+    resolve(true);
   });
+  
 }
 
 function createRecipeCards() {
+  
   // This function is called for you up above.
   // From within this function you can access the recipe data from the JSON 
   // files with the recipeData Object above. Make sure you only display the 
   // three recipes we give you, you'll use the bindShowMore() function to
   // show any others you've added when the user clicks on the "Show more" button.
-
+  let m = document.querySelector("main");
   // Part 1 Expose - TODO
+  alert("fuk");
+  for (const prop in recipeData){
+    alert("fuk2");
+    const rc = document.createElement('recipe-card');
+    alert("unsucessfuk");
+    rc.data = prop;
+    console.dir(rc);
+    m.appendChild(rc);
+  }
+  //alert("fuk");
 }
 
 function bindShowMore() {

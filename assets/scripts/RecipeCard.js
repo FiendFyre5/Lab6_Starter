@@ -1,8 +1,9 @@
 class RecipeCard extends HTMLElement {
   constructor() {
     // Part 1 Expose - TODO
-
+    super();
     // You'll want to attach the shadow DOM here
+    let shadow = this.attachShadow({mode:'open'});
   }
 
   set data(data) {
@@ -95,16 +96,123 @@ class RecipeCard extends HTMLElement {
     //    element.setAttribute()
     //    element.appendChild()
     //    & All of the helper functions below
+    
+    //shadow.appendChild(card);
 
+    //creating all the elements
+    let art = document.createElement('article');
+    art.setAttribute('article','art')
+    //var wrapper = document.createElement('span');
+    
+    
+    
+    // const p_org  = document.createElement('p');
+    //const p1 = document.createElement('p');
+    
+   
+    let org = getOrganization(data);
+    let url = getUrl(data);
+
+    // 1st image
+    var img1  = document.createElement('img');
+    let imgKey = searchForKey(data,thumbnail);
+    img1.setAttribute('src', imgKey); 
+    img1.setAttribute('alt', data.headline); 
+    
+    art.appendChild(img1);
+
+    // P Title
+    var p1 = document.createElement('p');
+    //p_org.classList.add('title');
+    p1 = data.headline;
+    p1.setAttribute('title','p1');
+    var a1  = document.createElement('a');
+    a1.setAttribute('href', url);
+    //a1 = url;
+    p1.appendChild(a1);
+    art.appendChild(p1);
+
+    var p_org = document.createElement('p');
+    //p_org.classList.add('title');
+    p_org = org;
+    p_org.setAttribute('organization','p_org');
+    art.appendChild(p_org);
+
+    // div section
+    var div_rat = document.createElement('div');
+    //div_rat.classList.add('rating');
+    div_rat.setAttribute('rating','div_rat');
+    
+    //span
+    var span1 = document.createElement('span');
+    var rat = data.ratingValue;
+    span1 = rat;
+    div_rat.appendChild(span1);
+    // img section
+    var img_avg = document.createElement('img');
+    switch(rat){
+      case 0:
+        img_avg.setAttribute('src', assets/images/icons/0-star.svg); 
+        img_avg.setAttribute('alt', '0 star'); 
+        break;
+      case 1:
+        img_avg.setAttribute('src', assets/images/icons/1-star.svg); 
+        img_avg.setAttribute('alt', '1 star'); 
+        break;
+      case 2:
+        img_avg.setAttribute('src', assets/images/icons/2-star.svg); 
+        img_avg.setAttribute('alt', '2 star'); 
+        break;
+      case 3:
+        img_avg.setAttribute('src', assets/images/icons/3-star.svg); 
+        img_avg.setAttribute('alt', '3 star'); 
+        break;
+      case 4:
+        img_avg.setAttribute('src', assets/images/icons/4-star.svg); 
+        img_avg.setAttribute('alt', '4 star'); 
+        break;
+      case 5:
+        img_avg.setAttribute('src', assets/images/icons/5-star.svg); 
+        img_avg.setAttribute('alt', '5 star'); 
+        break;
+      default:
+        img_avg.setAttribute('alt', 'no rating'); 
+    }
+    div_rat.appendChild(img_avg);
+    // NUMBER OF REVIEWs
+    var span2 = document.createElement('span');
+    span2 = data.ratingCount;
+    span2.setAttribute('class','span2');
+    div_rat.appendChild(span2);
+    //end div
+    art.appendChild(div_rat);
+    // time
+    var ti = document.createElement('time');
+    var t = convertTime(data.prepTime);
+    ti = t;
+    art.appendChild(ti);
+
+    var p_ing = document.createElement('p');
+    //p_ing.classList.add('ingredients');
+    p_ing = createIngredientList(data.recipeIngredient);
+    p_ing.setAttribute('ingredients','p_ing');
+    
+    art.appendChild(p_ing);
+    shadow.appendChild(styleElem);
+    shadow.appendChild(art);
+    card.appendChild(art);
     // Make sure to attach your root element and styles to the shadow DOM you
     // created in the constructor()
-
+    //shadow.appendChild(art);
+    
+    //this.shadowRoot.append(style,wrapper);// I think?
     // Part 1 Expose - TODO
   }
 }
 
 
-/*********************************************************************/
+/*********************************
+ * \************************************/
 /***                       Helper Functions:                       ***/
 /***          Below are some functions I used when making          ***/
 /***     the solution, feel free to use them or not, up to you     ***/
